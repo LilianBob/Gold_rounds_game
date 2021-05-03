@@ -10,51 +10,71 @@
         <link rel="stylesheet" href="{% static 'styles.css' %}">
     </head>
     <body>
-        <div class="container">
-            <Form action="/find_gold" method="post">
-                {% csrf_token %}
-                <h2>Your Gold: <input type="text" value="{{request.session.total_gold}}"></h2>
-                <div class="form-group">
-                    <h3>Farm</h3>
-                    <label for="name">Goal:</label>
-                    <input type="text" class="form-control" name="gold_count_goal">
-                    <h3 class="farm">Farm:{{request.session.gold_count.farm}} golds</h3>
-                    <input type="hidden" name="green">
-                    <button class="btn" type="submit">Find Gold</button>
-                </div>
-                <div class="form-group">
-                    <h3>Cave</h3>
-                    <label for="name">Goal:</label>
-                    <input type="text" class="form-control" name="gold_count_goal">
-                    <h3 class="cave">Cave: {{request.session.gold_count.cave}} golds</h3>
-                    <input type="hidden" name="gray">
-                    <button class="btn" type="submit">Find Gold</button>
-                </div>
-                <div class="form-group">
-                    <h3>House</h3>
-                    <label for="name">Goal:</label>
-                    <input type="text" class="form-control" name="gold_count_goal">
-                    <h3 class="house">House: {{request.session.gold_count.house}} golds</h3>
-                    <input type="hidden" name="purple">
-                    <button class="btn" type="submit">Find Gold</button>
+        <div class="container-fluid">
+            <h2>Your Gold:{{request.session.gold}}</h2>
+            <div class="postForm">
+                <form action="/find_gold" method="post" class="location">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <h3>Farm</h3>
+                        <p>(earn 10-20 gold!)</p>
+                        <input type="hidden" name="location" value="farm">
+                        <button class="btn" type="submit">Find Gold</button>
                     </div>
-                <div class="form-group">
-                    <h3>Casino</h3>
-                    <label for="name">Goal:</label>
-                    <input type="text" class="form-control" name="gold_count_goal">
-                    <h3 class="casino">Casino: {{request.session.gold_count.casino}} golds</h3>
-                    <input type="hidden" name="red">
-                    <button class="btn" type="submit">Find Gold</button>
-                </div>
-                <button class="/reset">RESET</button>
-                <div class="resultsBox">Activities:</div>
-            </Form>
+                </form>
+                <form action="/find_gold" method="post" class="location">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <h3>Cave</h3>
+                        <p>(earn 5-10 gold!)</p>
+                        <input type="hidden" name="location" value="cave">
+                        <button class="btn" type="submit">Find Gold</button>
+                    </div>
+                </form>
+                <form action="/find_gold" method="post" class="location">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <h3>House</h3>
+                        <p>(earn 2-5 gold!)</p>
+                        <input type="hidden" name="location" value="house">
+                        <button class="btn" type="submit">Find Gold</button>
+                    </div>
+                </form>
+                <form action="/find_gold" method="post" class="location">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <h3>Casino</h3>
+                        <p>(earn/loose 0-50 gold!)</p>
+                        <input type="hidden" name="location" value="casino">
+                        <button class="btn" type="submit">Find Gold</button>
+                    </div>
+                </form>
             </div>
-                {% for %}
-                <p>{{team}}: {{goldCount}}</p>
-                {% end for%}
+            <div id="gameActivities">
+                <form action="/reset" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="reset">
+                    <button class="btn btn-lg" type="submit">RESET</button>
+                </form>
+                <p>Activities:</p>
+                <div class="resultsBox" id="activities">
+                    {% for str in activities %}
+                        {% if location == 'farm' %}
+                    <p class="green">{{str}}</p>
+                        {% endif %}
+                        {% if location == 'cave' %}
+                    <p class="gray"> {{str}}</p>
+                        {% endif %}
+                        {% if location == 'house' %}
+                    <p class="purple"> {{str}}</p>
+                        {% endif %}
+                        {% if location == 'casino' %}
+                    <p class="red"> {{str}}</p>
+                        {% endif %}
+                    {% endfor %} 
+                </div> 
             </div>
-        </div>
+        </div> 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
